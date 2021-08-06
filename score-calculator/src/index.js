@@ -10,7 +10,7 @@ class App extends React.Component {
     }
     calcScore(x) {
         const k = [5, 8, 10, 13, 16, 18, 21, 24, 26, 28, 29, 30, 31, 33, 34, 35, 39, 41, 42, 43, 52, 55, 66, 68, 60];
-        const p = Math.floor(x / 50)
+        const p = Math.floor(x / 50);
         const r = x % 50;
         const cum = k.slice(0, p).reduce((acc, cur) => acc + cur, 0);
         return Math.floor(cum * 5 + (r + 1) * k[p] / 10);
@@ -23,7 +23,7 @@ class App extends React.Component {
     handleSubmit(event) {
         const res = this.calcScore(this.state.status).toString();
         this.setState({
-            result: res
+            result: res,
         });
         event.preventDefault();
     }
