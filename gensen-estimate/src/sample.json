@@ -1,0 +1,11 @@
+{
+    "status": {
+        "speed": 0,
+        "stamina": 0,
+        "power": 0,
+        "konzyo": 0,
+        "kasikosa": 0
+    },
+    "target": {
+    }
+}

@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 
 class Control extends React.Component {
     render() {
         return(
             <form onSubmit={this.props.handleSubmit}>
+                <input
+                    type='range' onChange={this.props.handleChange} />
                 <input type='submit' value='計算' />
             </form>
         );
@@ -25,10 +26,11 @@ class App extends React.Component {
         super();
         this.state = {value: 0};
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
-        this.setState({value: event.target.value});
+        
     }
 
     render() {
