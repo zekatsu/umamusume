@@ -5,14 +5,8 @@ import './index.css';
 class Control extends React.Component {
     render() {
         return(
-            <form >
-                <label>
-                    Label:
-                    <select onChange={this.props.handleChange}>
-                        <option selected value={0}>0</option>
-                        <option selected value={1}>1</option>
-                    </select>
-                </label>
+            <form onSubmit={this.props.handleSubmit}>
+                <input type='submit' value='計算' />
             </form>
         );
     }
@@ -53,6 +47,6 @@ class App extends React.Component {
 
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('root')
+    <App />,
+    document.getElementById('root')
 );
