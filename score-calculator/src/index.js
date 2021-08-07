@@ -4,7 +4,12 @@ import ReactDOM from 'react-dom';
 class App extends React.Component {
     constructor() {
         super();
-        this.state = {status: [0, 0, 0, 0, 0], result: '未計算'};
+        this.state = {
+            status: [0, 0, 0, 0, 0],
+            rarity: 3,
+            uniqueLevel: 4,
+            result: '未計算',
+        };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -71,11 +76,13 @@ class App extends React.Component {
                                 <input
                                     type='number'
                                     name='rarity' min={1} max={5}
+                                    value={3}
                                     onChange={this.handleChange} />
                                 <label>固有レベル</label>
                                 <input
                                     type='number'
                                     name='uniqueLevel' min={1} max={6}
+                                    value={4}
                                     onChange={this.handleChange} />
                             </div>
                         <input type='submit' value='calc' />
