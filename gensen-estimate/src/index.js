@@ -3,21 +3,23 @@ import ReactDOM from 'react-dom';
 
 const blue = [
     ['☆', 0.5],
-    ['☆☆', 0.95],
-    ['☆☆☆', 1],
+    ['☆☆', 0.45],
+    ['☆☆☆', 0.05],
 ]
 
 const blue_type = [
     ['スピード', 0.2],
-    ['スタミナ', 0.4],
-    ['パワー', 0.6],
-    ['根性', 0.8],
-    ['賢さ', 1],
+    ['スタミナ', 0.2],
+    ['パワー', 0.2],
+    ['根性', 0.2],
+    ['賢さ', 0.2],
 ]
 
 function choose(random_variable) {
     const dice = Math.random();
-    return random_variable.find(element => dice <= element[1])[0];
+    const cumulativeSum = (sum => value => [value[0], sum += value[1]])(0);
+    const cum = random_variable.map(cumulativeSum)
+    return cum.find(element => dice <= element[1])[0];
 }
 
 class App extends React.Component {
