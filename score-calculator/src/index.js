@@ -8,6 +8,18 @@ class App extends React.Component {
             status: [0, 0, 0, 0, 0],
             rarity: 3,
             uniqueLevel: 4,
+            skill: {
+                129: 0,
+                174: 0,
+                180: 0,
+                191: 0,
+                217: 0,
+                239: 0,
+                288: 0,
+                394: 0,
+                508: 0,
+                559: 0,
+            },
             result: '未計算',
         };
         this.handleChange = this.handleChange.bind(this);
@@ -29,21 +41,16 @@ class App extends React.Component {
         const k = (this.state.rarity < 3)? 120: 170;
         return k * this.state.uniqueLevel;
     }
-    calcScore() {
-        const score = this.calcStatus() + this.calcUnique();
-        return score.toString();
+    calcSkill() {
+        let ret = 0;
+        for (const [key, value] of Object.entries(this.state.skill)) {
+            ret += key * value;
+        }
+        return ret;
     }
-    statusInput(i) {
-        return (
-        <input
-            name={i.toString()}
-            type='number' min={0} max={1200}
-            onChange={(event) => {
-                let status = this.state.status;
-                status[i] = event.target.value;
-                this.setState({status: status})
-            }} />
-        );
+    calcScore() {
+        const score = this.calcStatus() + this.calcUnique() + this.calcSkill();
+        return score.toString();
     }
     handleChange(event) {
         this.setState({
@@ -55,6 +62,37 @@ class App extends React.Component {
             result: this.calcScore(),
         });
         event.preventDefault();
+    }
+    statusInput(i) {
+        return (
+            <input
+                name={'status' + i.toString()}
+                type='number' min={0} max={1200}
+                inputmode='numeric'
+                onChange={(event) => {
+                    let status = this.state.status;
+                    status[i] = parseInt(event.target.value, 10);
+                    this.setState({ status: status });
+                }} />
+        );
+    }
+    skillInput(skillPoint, desc) {
+        return (
+            <div>
+                <input
+                    name={'skill' + skillPoint.toString()}
+                    type='number' min={0} max={10}
+                    inputmode='numeric'
+                    value={this.state.skill[skillPoint]}
+                    onChange={(event) => {
+                        let skill = this.state.skill;
+                        skill[skillPoint] = parseInt(event.target.value, 10);
+                        this.setState({ skill: skill });
+                    }}
+                />
+                {skillPoint.toString() + ': ' + desc}
+            </div>
+        )
     }
     render() {
         return (
@@ -76,14 +114,28 @@ class App extends React.Component {
                                 <input
                                     type='number'
                                     name='rarity' min={1} max={5}
-                                    value={3}
+                                    value={this.state.rarity}
+                                    inputmode='numeric'
                                     onChange={this.handleChange} />
                                 <label>固有レベル</label>
                                 <input
                                     type='number'
                                     name='uniqueLevel' min={1} max={6}
-                                    value={4}
+                                    value={this.state.uniqueLevel}
+                                    inputmode='numeric'
                                     onChange={this.handleChange} />
+                            </div>
+                            <div className='skillInput'>
+                                {this.skillInput(129, '緑丸、集中力')}
+                                {this.skillInput(174, '緑二重丸')}
+                                {this.skillInput(180, '継承固有')}
+                                {this.skillInput(191, 'コツ丸')}
+                                {this.skillInput(217, '汎用')}
+                                {this.skillInput(239, '距離脚質丸、コツ二重丸')}
+                                {this.skillInput(288, '距離脚質二重丸')}
+                                {this.skillInput(394, 'コンセントレーション')}
+                                {this.skillInput(508, '汎用金')}
+                                {this.skillInput(559, '距離脚質金')}
                             </div>
                         <input type='submit' value='calc' />
                     </form>
