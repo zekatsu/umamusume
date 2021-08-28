@@ -23,7 +23,6 @@ class App extends React.Component {
             result: '未計算',
         };
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     calcStatus_(x) {
@@ -57,13 +56,8 @@ class App extends React.Component {
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
-        });
-    }
-    handleSubmit(event) {
-        this.setState({
             result: this.calcScore(),
         });
-        event.preventDefault();
     }
 
     statusInput(i) {
@@ -74,7 +68,11 @@ class App extends React.Component {
                 onChange={(event) => {
                     let status = this.state.status;
                     status[i] = parseInt(event.target.value, 10);
-                    this.setState({ status: status });
+                    this.setState({
+                        status: status,
+                        result: this.calcScore(),
+                    });
+                    event.preventDefault();
                 }} />
         );
     }
@@ -91,6 +89,7 @@ class App extends React.Component {
     skillInput(skillPoint, desc) {
         const value = this.state.skill[skillPoint]
         const onClick = (event) => {
+            console.log(event)
             let skill = this.state.skill;
             const operation = event.target.innerText;
             if (operation === '+') {
@@ -99,7 +98,10 @@ class App extends React.Component {
             if (operation === '-') {
                 skill[skillPoint]--;
             }
-            this.setState({ skill: skill });
+            this.setState({
+                skill: skill,
+                result: this.calcScore(),
+            });
         }
         return this.inputSpinner(value, desc, onClick)
     }
@@ -108,46 +110,41 @@ class App extends React.Component {
         return (
             <div className='Main'>
                 <div className='Control'>
-                    <form
-                        onSubmit={this.handleSubmit}
-                        autoComplete='off'>
-                            <div className='statusInput'>
-                                {this.statusInput(0)}
-                                {this.statusInput(1)}
-                                {this.statusInput(2)}
-                                {this.statusInput(3)}
-                                {this.statusInput(4)}
-                            </div>
-                            <div className='uniqueInput'>
-                                <label>星</label>
-                                <input
-                                    type='number'
-                                    name='rarity' min={1} max={5}
-                                    value={this.state.rarity}
-                                    inputMode='numeric'
-                                    onChange={this.handleChange} />
-                                <label>固有レベル</label>
-                                <input
-                                    type='number'
-                                    name='uniqueLevel' min={1} max={6}
-                                    value={this.state.uniqueLevel}
-                                    inputMode='numeric'
-                                    onChange={this.handleChange} />
-                            </div>
-                            <div className='skillInput'>
-                                {this.skillInput(129, '緑丸、集中力')}
-                                {this.skillInput(174, '緑二重丸')}
-                                {this.skillInput(180, '継承固有')}
-                                {this.skillInput(191, 'コツ丸')}
-                                {this.skillInput(217, '汎用')}
-                                {this.skillInput(239, '距離脚質丸、コツ二重丸')}
-                                {this.skillInput(288, '距離脚質二重丸')}
-                                {this.skillInput(394, 'コンセントレーション')}
-                                {this.skillInput(508, '汎用金')}
-                                {this.skillInput(559, '距離脚質金')}
-                            </div>
-                        <input type='submit' value='calc' />
-                    </form>
+                    <div className='statusInput'>
+                            {this.statusInput(0)}
+                            {this.statusInput(1)}
+                            {this.statusInput(2)}
+                            {this.statusInput(3)}
+                            {this.statusInput(4)}
+                    </div>
+                    <div className='uniqueInput'>
+                        <label>星</label>
+                        <input
+                            type='number'
+                            name='rarity' min={1} max={5}
+                            value={this.state.rarity}
+                            inputMode='numeric'
+                            onChange={this.handleChange} />
+                        <label>固有レベル</label>
+                        <input
+                            type='number'
+                            name='uniqueLevel' min={1} max={6}
+                            value={this.state.uniqueLevel}
+                            inputMode='numeric'
+                            onChange={this.handleChange} />
+                    </div>
+                    <div className='skillInput'>
+                        {this.skillInput(129, '緑丸、集中力')}
+                        {this.skillInput(174, '緑二重丸')}
+                        {this.skillInput(180, '継承固有')}
+                        {this.skillInput(191, 'コツ丸')}
+                        {this.skillInput(217, '汎用')}
+                        {this.skillInput(239, '距離脚質丸、コツ二重丸')}
+                        {this.skillInput(288, '距離脚質二重丸')}
+                        {this.skillInput(394, 'コンセントレーション')}
+                        {this.skillInput(508, '汎用金')}
+                        {this.skillInput(559, '距離脚質金')}
+                    </div>
                 </div>
                 <div className='Result'>
                     {this.state.result}
