@@ -25,6 +25,7 @@ class App extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
     calcStatus_(x) {
         const k = [5, 8, 10, 13, 16, 18, 21, 24, 26, 28, 29, 30, 31, 33, 34, 35, 39, 41, 42, 43, 52, 55, 66, 68, 60];
         const p = Math.floor(x / 50);
@@ -52,6 +53,7 @@ class App extends React.Component {
         const score = this.calcStatus() + this.calcUnique() + this.calcSkill();
         return score.toString();
     }
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
@@ -63,12 +65,12 @@ class App extends React.Component {
         });
         event.preventDefault();
     }
+
     statusInput(i) {
         return (
             <input
-                name={'status' + i.toString()}
                 type='number' min={0} max={1200}
-                inputmode='numeric'
+                inputMode='numeric'
                 onChange={(event) => {
                     let status = this.state.status;
                     status[i] = parseInt(event.target.value, 10);
@@ -76,24 +78,32 @@ class App extends React.Component {
                 }} />
         );
     }
-    skillInput(skillPoint, desc) {
+    inputSpinner(value, desc, onClick) {
         return (
             <div>
-                <input
-                    name={'skill' + skillPoint.toString()}
-                    type='number' min={0} max={10}
-                    inputmode='numeric'
-                    value={this.state.skill[skillPoint]}
-                    onChange={(event) => {
-                        let skill = this.state.skill;
-                        skill[skillPoint] = parseInt(event.target.value, 10);
-                        this.setState({ skill: skill });
-                    }}
-                />
-                {skillPoint.toString() + ': ' + desc}
+                <button onClick={onClick} >-</button>
+                <label>{value}</label>
+                <button onClick={onClick} >+</button>
+                <label>{desc}</label>
             </div>
         )
     }
+    skillInput(skillPoint, desc) {
+        const value = this.state.skill[skillPoint]
+        const onClick = (event) => {
+            let skill = this.state.skill;
+            const operation = event.target.innerText;
+            if (operation === '+') {
+                skill[skillPoint]++;
+            }
+            if (operation === '-') {
+                skill[skillPoint]--;
+            }
+            this.setState({ skill: skill });
+        }
+        return this.inputSpinner(value, desc, onClick)
+    }
+
     render() {
         return (
             <div className='Main'>
@@ -102,7 +112,6 @@ class App extends React.Component {
                         onSubmit={this.handleSubmit}
                         autoComplete='off'>
                             <div className='statusInput'>
-                                <label>ステータス</label>
                                 {this.statusInput(0)}
                                 {this.statusInput(1)}
                                 {this.statusInput(2)}
@@ -115,14 +124,14 @@ class App extends React.Component {
                                     type='number'
                                     name='rarity' min={1} max={5}
                                     value={this.state.rarity}
-                                    inputmode='numeric'
+                                    inputMode='numeric'
                                     onChange={this.handleChange} />
                                 <label>固有レベル</label>
                                 <input
                                     type='number'
                                     name='uniqueLevel' min={1} max={6}
                                     value={this.state.uniqueLevel}
-                                    inputmode='numeric'
+                                    inputMode='numeric'
                                     onChange={this.handleChange} />
                             </div>
                             <div className='skillInput'>
