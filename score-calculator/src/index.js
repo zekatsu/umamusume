@@ -20,7 +20,6 @@ class App extends React.Component {
                 508: 0,
                 559: 0,
             },
-            result: '未計算',
         };
         this.handleChange = this.handleChange.bind(this);
     }
@@ -56,7 +55,6 @@ class App extends React.Component {
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value,
-            result: this.calcScore(),
         });
     }
 
@@ -70,7 +68,6 @@ class App extends React.Component {
                     status[i] = parseInt(event.target.value, 10);
                     this.setState({
                         status: status,
-                        result: this.calcScore(),
                     });
                     event.preventDefault();
                 }} />
@@ -99,7 +96,6 @@ class App extends React.Component {
             }
             this.setState({
                 skill: skill,
-                result: this.calcScore(),
             });
         }
         return this.inputSpinner(value, desc, onClick)
@@ -146,7 +142,7 @@ class App extends React.Component {
                     </div>
                 </div>
                 <div className='Result'>
-                    {this.state.result}
+                    {this.calcScore()}
                 </div>
             </div>
         );
