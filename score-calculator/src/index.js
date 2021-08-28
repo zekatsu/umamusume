@@ -89,7 +89,6 @@ class App extends React.Component {
     skillInput(skillPoint, desc) {
         const value = this.state.skill[skillPoint]
         const onClick = (event) => {
-            console.log(event)
             let skill = this.state.skill;
             const operation = event.target.innerText;
             if (operation === '+') {
